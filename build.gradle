@@ -21,6 +21,9 @@ allprojects {
     version '0.1.0-SNAPSHOT'
     repositories {
         mavenCentral()
+        maven {
+            url "https://raw.github.com/mlnkrish/shouldJ/mvn-repo"
+        }
     }
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -38,11 +41,22 @@ allprojects {
 
 subprojects {
     dependencies {
+        compile 'com.typesafe.akka:akka-actor_2.11:2.4.1'
         compile group: 'io.dropwizard', name: 'dropwizard-core', version: '0.8.2'
+        compile group: 'org.mongodb', name: 'mongo-java-driver', version: '2.10.1'
         compile group: 'io.federecio', name: 'dropwizard-swagger', version: '0.7.0'
+        compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+        compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.13'
+        compile group: 'com.orientechnologies', name: 'orientdb-graphdb', version: '2.1.9'
+        compile group: 'com.squareup.okhttp', name: 'okhttp', version: '2.4.0'
+        compile 'org.jdeferred:jdeferred-android-aar:1.2.4'
+        compile 'com.squareup.okhttp3:okhttp:3.0.1'
 
 
         testCompile group: 'junit', name: 'junit', version: '4.12'
         testCompile group: 'org.mockito', name: 'mockito-core', version: '1.10.19'
+        testCompile 'com.github.tomakehurst:wiremock:1.58'
+        testCompile group: 'name.mlnkrishnan.shouldJ', name: 'shouldJ', version: '1.9'
+
     }
 }
