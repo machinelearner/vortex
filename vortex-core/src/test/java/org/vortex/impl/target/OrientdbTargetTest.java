@@ -8,7 +8,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.vortex.Settings;
 import org.vortex.domain.Result;
-import org.vortex.help.Maps;
+import org.vortex.basic.primitive.Maps;
 import org.vortex.query.*;
 
 import java.util.List;

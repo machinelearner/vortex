@@ -1,8 +1,8 @@
 package org.vortex.domain;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.vortex.help.Maps;
+import org.vortex.basic.StructuredLog;
+import org.vortex.basic.primitive.Maps;
+import org.vortex.basic.primitive.Pair;
 import org.vortex.query.ListQuery;
 
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
 
-import static org.vortex.help.Pair.pair;
+import static org.vortex.basic.primitive.Pair.pair;
 
 
 /**
@@ -24,14 +24,14 @@ public class Flow {
     private final ListQuery sourceQuery;
     private final VTarget sink;
     private final SourceSinkTransformer sourceSinkTransformation;
-    protected Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    protected StructuredLog LOGGER = new StructuredLog();
     private Function<VQuery, Result> ExecuteAtSink = new Function<VQuery, Result>() {
         @Override
         public Result apply(VQuery taskQuery) {
             try {
                 return sink.execute(taskQuery).call();
             } catch (Exception e) {
-                LOGGER.error("stage:sink status:failed type:{}", e.getClass().getSimpleName(), e);
+                LOGGER.error(e, Pair.of("stage", "sink"));
                 return Result.failure("Execution at sink failed", Maps.map());
             }
         }
@@ -68,8 +68,8 @@ public class Flow {
                                 .flatMap(Collection::stream)
                                 .map(ExecuteAtSink)
                                 .forEach(aResult -> {
-                                    LOGGER.info("Sink Execution Successful: {}", result.isSuccess());
-                                    LOGGER.debug("Sink Execution Result {}", result.toJson());
+                                    LOGGER.info(pair("stage", "sink"), pair("state", result.isSuccess()));
+                                    LOGGER.debug(pair("result", result.toJson()));
                                 });
                         lastResultOfPage = aPage.stream().reduce((a, b) -> b).orElse(Maps.<String, Object>map());
                         Object lastPagePaginationCriterionValue = lastResultOfPage.get(sourceQuery.pageStartField());
@@ -78,8 +78,8 @@ public class Flow {
                     return Result.success("Flow", Maps.<String, Object>map(metadata(), pair("info", info()), pair("result", Maps.map("count", count, "lastResult", lastResultOfPage))));
                 } catch (Exception e) {
                     Result failure = Result.failure("Flow", Maps.<String, Object>map(metadata(), pair("info", info()), pair("result", Maps.map("lastResult", lastResultOfPage)), pair("errors", Arrays.asList(e.getMessage()))));
-                    LOGGER.error("Flow failed with error", e);
-                    LOGGER.debug("Flow failed with result: {}", failure.toJson());
+                    LOGGER.error(e, pair("stage", "flow"));
+                    LOGGER.debug(pair("stage", "flow"), pair("result", failure.toJson()));
                     return failure;
                 }
             }

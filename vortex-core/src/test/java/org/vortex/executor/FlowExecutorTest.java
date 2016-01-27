@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.vortex.Settings;
 import org.vortex.domain.Flow;
 import org.vortex.domain.Result;
-import org.vortex.help.Maps;
+import org.vortex.basic.primitive.Maps;
 
 import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;

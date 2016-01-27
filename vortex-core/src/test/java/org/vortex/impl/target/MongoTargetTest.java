@@ -9,8 +9,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.vortex.Settings;
 import org.vortex.domain.Result;
-import org.vortex.help.Maps;
-import org.vortex.help.Pair;
+import org.vortex.basic.primitive.Maps;
+import org.vortex.basic.primitive.Pair;
 import org.vortex.query.BulkDeleteTaskQuery;
 import org.vortex.query.CreateQuery;
 import org.vortex.query.ListQuery;
@@ -24,7 +24,7 @@ import java.util.function.Predicate;
 
 import static java.util.Arrays.asList;
 import static name.mlnkrishnan.shouldJ.ShouldJ.it;
-import static org.vortex.help.Pair.pair;
+import static org.vortex.basic.primitive.Pair.pair;
 
 public class MongoTargetTest {
     public static final String TEST_DB_NAME = "vortex_test";

@@ -1,8 +1,8 @@
 package org.vortex.domain;
 
 
-import org.vortex.help.Callable1;
-import org.vortex.help.Lists;
+import org.vortex.basic.primitive.Callable1;
+import org.vortex.basic.primitive.Lists;
 
 import java.util.Arrays;
 import java.util.List;

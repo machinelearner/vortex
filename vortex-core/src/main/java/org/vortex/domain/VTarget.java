@@ -3,7 +3,7 @@ package org.vortex.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vortex.Settings;
-import org.vortex.help.Maps;
+import org.vortex.basic.primitive.Maps;
 import org.vortex.query.*;
 
 import java.util.Arrays;
@@ -12,6 +12,7 @@ import java.util.concurrent.Callable;
 public abstract class VTarget {
 
     protected Settings settings;
+    @Deprecated
     protected Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     public VTarget(Settings settings) {

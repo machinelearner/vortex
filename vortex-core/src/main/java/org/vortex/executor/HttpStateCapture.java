@@ -1,9 +1,9 @@
 package org.vortex.executor;
 
 import com.squareup.okhttp.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.vortex.Settings;
+import org.vortex.basic.StructuredLog;
+import org.vortex.basic.primitive.Pair;
 import org.vortex.domain.Result;
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.io.IOException;
 public class HttpStateCapture implements StateCapture {
     public static final MediaType APPLICATION_JSON = MediaType.parse("application/json; charset=utf-8");
     private Settings settings;
-    protected Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    protected StructuredLog LOGGER = new StructuredLog();
     OkHttpClient client;
 
     public HttpStateCapture(Settings settings) {
@@ -25,18 +25,22 @@ public class HttpStateCapture implements StateCapture {
     }
 
     private void sendResult(Result result) {
+        LOGGER.info(Pair.pair("stage", "stateCapture"), Pair.pair("captureType", "http"), Pair.pair("result", result));
         Request request = new Request.Builder().url(settings.notificationUrl("http")).post(RequestBody.create(APPLICATION_JSON, result.toJson().toJSONString())).build();
-        Response response = null;
+        Response response;
         try {
             response = client.newCall(request).execute();
         } catch (IOException e) {
-            LOGGER.error("Sending notification to {} failed with error: {}", settings.notificationUrl("http"), e.getMessage());
-            throw new ExecutorException("Sending notification failed", e);        }
+            LOGGER.error(e, Pair.pair("target", settings.notificationUrl("http")), Pair.pair("result", e.getMessage()));
+            throw new ExecutorException("Sending notification failed", e);
+        }
 
         if (!response.isSuccessful()) {
-            LOGGER.info("Sending notification to {} failed with status: {}", settings.notificationUrl("http"), response.code());
+            LOGGER.info(Pair.pair("captureType", "http"), Pair.pair("target", settings.notificationUrl("http")),
+                    Pair.pair("result", response.code()));
             String message = response.body().toString();
-            LOGGER.debug("Sending notification to {} failed with response: {}", settings.notificationUrl("http"), message);
+            LOGGER.debug(Pair.pair("captureType", "http"), Pair.pair("target", settings.notificationUrl("http")),
+                    Pair.pair("result", response.code()), Pair.pair("message", message));
             throw new ExecutorException(message);
         }
     }

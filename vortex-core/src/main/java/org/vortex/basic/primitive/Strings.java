@@ -1,4 +1,4 @@
-package org.vortex.help;
+package org.vortex.basic.primitive;
 
 import java.util.Map;
 import java.util.regex.Matcher;

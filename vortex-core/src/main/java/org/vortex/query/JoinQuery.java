@@ -5,7 +5,7 @@ import org.vortex.domain.Result;
 import org.vortex.domain.VQuery;
 import org.vortex.domain.VTarget;
 import org.vortex.executor.ExecutorException;
-import org.vortex.help.Maps;
+import org.vortex.basic.primitive.Maps;
 import org.vortex.impl.target.GraphTarget;
 
 import java.util.ArrayList;

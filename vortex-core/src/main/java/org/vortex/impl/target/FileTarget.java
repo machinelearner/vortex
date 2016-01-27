@@ -3,8 +3,8 @@ package org.vortex.impl.target;
 import org.vortex.Settings;
 import org.vortex.domain.Result;
 import org.vortex.domain.VTarget;
-import org.vortex.help.Maps;
-import org.vortex.help.Pair;
+import org.vortex.basic.primitive.Maps;
+import org.vortex.basic.primitive.Pair;
 import org.vortex.query.*;
 
 import java.io.File;

@@ -1,7 +1,7 @@
 package org.vortex.domain;
 
 import org.json.simple.JSONObject;
-import org.vortex.help.Maps;
+import org.vortex.basic.primitive.Maps;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,11 +9,11 @@ import java.util.Map;
 
 public class Result extends HashMap<String, Object> {
 
-    public boolean isSuccess() {
+    public Boolean isSuccess() {
         return get("status").equals(Status.SUCCESS);
     }
 
-    public boolean isFailure() {
+    public Boolean isFailure() {
         return get("status").equals(Status.FAILURE);
     }
 

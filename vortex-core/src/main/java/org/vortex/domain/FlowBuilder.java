@@ -1,6 +1,6 @@
 package org.vortex.domain;
 
-import org.vortex.help.Callable1;
+import org.vortex.basic.primitive.Callable1;
 import org.vortex.query.ListQuery;
 
 import java.util.List;

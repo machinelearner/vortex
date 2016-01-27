@@ -1,4 +1,4 @@
-package org.vortex.help;
+package org.vortex.basic.primitive;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;

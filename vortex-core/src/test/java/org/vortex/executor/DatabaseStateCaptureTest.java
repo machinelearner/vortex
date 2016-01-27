@@ -7,13 +7,13 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.vortex.domain.Result;
 import org.vortex.domain.VTarget;
-import org.vortex.help.Maps;
+import org.vortex.basic.primitive.Maps;
 import org.vortex.query.UpdateQuery;
 
 import static name.mlnkrishnan.shouldJ.ShouldJ.it;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.vortex.help.Pair.pair;
+import static org.vortex.basic.primitive.Pair.pair;
 
 public class DatabaseStateCaptureTest {
 

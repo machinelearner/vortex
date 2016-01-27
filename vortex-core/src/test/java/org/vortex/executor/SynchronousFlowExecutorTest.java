@@ -6,12 +6,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.vortex.Settings;
+import org.vortex.basic.primitive.Maps;
 import org.vortex.domain.Flow;
 import org.vortex.domain.Result;
-import org.vortex.help.Maps;
 
 import java.util.Arrays;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -41,21 +40,11 @@ public class SynchronousFlowExecutorTest {
     public void shouldExecuteAllStepsInExecutorSuccessfully() {
         Flow aFlow = mock(Flow.class);
         final Result aFlowResult = Result.success("Done");
-        when(aFlow.execute()).thenReturn(new Callable<Result>() {
-            @Override
-            public Result call() throws Exception {
-                return aFlowResult;
-            }
-        });
+        when(aFlow.execute()).thenReturn(() -> aFlowResult);
         when(aFlow.info()).thenReturn(Maps.map("Source", "aSource"));
         Flow anotherFlow = mock(Flow.class);
         final Result anotherFlowResult = Result.success("Done", Maps.<String, Object>map());
-        when(anotherFlow.execute()).thenReturn(new Callable<Result>() {
-            @Override
-            public Result call() throws Exception {
-                return anotherFlowResult;
-            }
-        });
+        when(anotherFlow.execute()).thenReturn(() -> anotherFlowResult);
         when(anotherFlow.info()).thenReturn(Maps.map("Source", "anotherSource"));
 
 

@@ -8,9 +8,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 import org.vortex.Settings;
 import org.vortex.domain.Result;
-import org.vortex.help.Maps;
-import org.vortex.help.Pair;
-import org.vortex.help.Strings;
+import org.vortex.basic.primitive.Maps;
+import org.vortex.basic.primitive.Pair;
+import org.vortex.basic.primitive.Strings;
 import org.vortex.query.*;
 
 import java.util.Arrays;
@@ -31,6 +31,7 @@ public class OrientdbTarget extends GraphTarget {
     String GROUP_END = " )";
     private final OrientGraphFactory orientGraphFactory;
     private String[] vertices;
+    public static final Map<ListQuery.SortOrder, String> ORDER_MAPPING = Maps.map(ListQuery.SortOrder.ASC, "asc", ListQuery.SortOrder.DESC, "desc");
 
     public OrientdbTarget(Settings settings, OrientGraphFactory orientGraphFactory, String... vertices) {
         super(settings);
@@ -176,7 +177,6 @@ public class OrientdbTarget extends GraphTarget {
     }
 
     private String sortQuery(final ListQuery listQuery) {
-        final Map<ListQuery.SortOrder, String> orderMapping = Maps.map(ListQuery.SortOrder.ASC, "asc", ListQuery.SortOrder.DESC, "desc");
         List<Pair<String, Object>> sortClauses = listQuery.sort();
         if (sortClauses.isEmpty())
             return "";
@@ -184,10 +184,9 @@ public class OrientdbTarget extends GraphTarget {
         List<String> queries = sortClauses.stream().map(new Function<Pair<String, Object>, String>() {
             @Override
             public String apply(Pair<String, Object> sortClause) {
-                //TODO: Pramod - WTH! orderBy fix!
                 String orderBy;
                 if (sortClause.second() instanceof ListQuery.SortOrder)
-                    orderBy = orderMapping.get(sortClause.second());
+                    orderBy = ORDER_MAPPING.get(sortClause.second());
                 else
                     orderBy = (String) sortClause.second();
                 return " " + sortClause.first() + " " + sortClause.second();

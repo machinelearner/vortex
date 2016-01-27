@@ -5,17 +5,14 @@ import org.vortex.domain.Result;
 import org.vortex.domain.VQuery;
 import org.vortex.domain.VTarget;
 import org.vortex.executor.ExecutorException;
-import org.vortex.help.Maps;
-import org.vortex.help.Pair;
+import org.vortex.basic.primitive.Maps;
+import org.vortex.basic.primitive.Pair;
 import org.vortex.impl.target.MongoTarget;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 public class ListQuery implements VQuery, Cloneable {
