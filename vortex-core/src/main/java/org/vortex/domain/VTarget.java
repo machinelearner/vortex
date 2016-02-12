@@ -9,6 +9,11 @@ import org.vortex.query.*;
 import java.util.Arrays;
 import java.util.concurrent.Callable;
 
+/**
+ * Helps define the common level of interaction which any application will have w.r.t data-stores
+ * Every target will understand how to convert a VQuery, primitive expressed by Vortex to Native notion of query to get
+ * desired result
+ */
 public abstract class VTarget {
 
     protected Settings settings;

@@ -7,8 +7,10 @@ import org.vortex.basic.primitive.Maps;
 import org.vortex.basic.primitive.Pair;
 import org.vortex.domain.Flow;
 import org.vortex.domain.Result;
+import org.vortex.executor.state.StateCapture;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class SynchronousFlowExecutor implements Executor<SynchronousFlowExecutor, Flow> {
@@ -40,30 +42,40 @@ public class SynchronousFlowExecutor implements Executor<SynchronousFlowExecutor
 
     @Override
     public Result submit() {
-        LOGGER.info(Pair.pair("stage", "FlowSubmit"), Pair.pair("stage", "PreSubmit"), Pair.pair("stateCapture", stateCapture.info()));
+        LOGGER.info(Pair.pair("stage", "SyncFlowSubmit"), Pair.pair("stage", "PreSubmit"), Pair.pair("stateCapture", stateCapture.info()));
         final List<Result> successResults = Lists.list();
         final List<Result> failedResults = Lists.list();
         boolean success = flows.stream()
                 .allMatch(other -> {
                     try {
-                        LOGGER.info(Pair.pair("stage", "FlowSubmit"), Pair.pair("metadata", other.metadata()), Pair.pair("info", other.info()));
+                        LOGGER.info(Pair.pair("stage", "SyncFlowSubmit"), Pair.pair("metadata", other.metadata()), Pair.pair("info", other.info()));
                         Result result = executeTask().call(other);
                         if (result.isFailure()) {
-                            LOGGER.error(Pair.pair("stage", "FlowSubmit"), Pair.pair("metadata", other.metadata()), Pair.pair("result", result));
+                            LOGGER.error(Pair.pair("stage", "SyncFlowSubmit"), Pair.pair("metadata", other.metadata()), Pair.pair("result", result));
                             failedResults.add(result);
                             return false;
                         }
-                        LOGGER.info(Pair.pair("stage", "FlowSubmit"), Pair.pair("stage", "PostSubmit"), Pair.pair("result", result.result()));
+                        LOGGER.info(Pair.pair("stage", "SyncFlowSubmit"), Pair.pair("stage", "PostSubmit"), Pair.pair("result", result.result()));
                         successResults.add(result);
                     } catch (Exception e) {
-                        LOGGER.error(e, Pair.pair("stage", "FlowSubmit"), Pair.pair("stage", "PostSubmit"));
+                        LOGGER.error(e, Pair.pair("stage", "SyncFlowSubmit"), Pair.pair("stage", "PostSubmit"));
                         failedResults.add(Result.failure("Failed while executing flow with an exception", Maps.map()));
                         return false;
                     }
                     return true;
                 });
 
-        return success ? Result.success("Done running migrations", Maps.<String, Object>map("result", successResults, "success", success))
-                : Result.success("Done running migrations with failure", Maps.<String, Object>map("result", successResults, "success", success, "failed", failedResults.get(0)));
+        return getFlowResult(successResults, failedResults, success);
+    }
+
+    private Result getFlowResult(List<Result> successResults, List<Result> failedResults, Boolean success) {
+        String COMPLETION_MESSAGE = "Flow execution complete";
+        String FAILED_COMPLETION_ADDENDUM = " with failures";
+        Map<String, Object> resultValue = Maps.map("result", successResults, "success", success);
+        if (!success) {
+            COMPLETION_MESSAGE += FAILED_COMPLETION_ADDENDUM;
+            resultValue.put("failed", failedResults);
+        }
+        return Result.success(COMPLETION_MESSAGE, resultValue);
     }
 }

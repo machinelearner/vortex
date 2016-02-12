@@ -9,8 +9,11 @@ import org.vortex.Settings;
 import org.vortex.basic.primitive.Maps;
 import org.vortex.domain.Flow;
 import org.vortex.domain.Result;
+import org.vortex.executor.state.HttpStateCapture;
+import org.vortex.executor.state.StateCapture;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -86,7 +89,7 @@ public class SynchronousFlowExecutorTest {
 
         it(result.isSuccess()).shouldBeTrue();
         it(result.result().get("result")).shouldBe(Arrays.asList(aFlowResult, anotherFlow1Result));
-        it(result.result().get("failed")).shouldBe(anotherFlow2Result);
+        it(((List)result.result().get("failed"))).shouldHave(anotherFlow2Result);
         it(result.result().get("success")).shouldBe(false);
     }
 
@@ -124,15 +127,15 @@ public class SynchronousFlowExecutorTest {
         verifyNoMoreInteractions(anotherFlow4);
         it(result.isSuccess()).shouldBeTrue();
         it(result.result().get("result")).shouldBe(Arrays.asList(aFlowResult, anotherFlow1Result, anotherFlow2Result));
-        it(result.result().get("failed")).shouldBe(anotherFlow3Result);
+        it(((List)result.result().get("failed"))).shouldHave(anotherFlow3Result);
         it(result.result().get("success")).shouldBe(false);
 
         verify(stateCapture, times(1)).onFail(anotherFlow3Result);
-        ArgumentCaptor<Result> captor = ArgumentCaptor.forClass(Result.class);
-        verify(stateCapture, times(3)).onDone(captor.capture());
+        ArgumentCaptor<Result> resultCaptor = ArgumentCaptor.forClass(Result.class);
+        verify(stateCapture, times(3)).onDone(resultCaptor.capture());
 
-        it(captor.getAllValues()).shouldHaveAll(aFlowResult, anotherFlow1Result, anotherFlow2Result).shouldNotHave(anotherFlow3Result).shouldNotHave(anotherFlow4Result);
-        it(captor.getAllValues()).shouldHaveAll(aFlowResult, anotherFlow1Result, anotherFlow2Result).shouldNotHave(anotherFlow3Result).shouldNotHave(anotherFlow4Result);
+        it(resultCaptor.getAllValues()).shouldHaveAll(aFlowResult, anotherFlow1Result, anotherFlow2Result).shouldNotHave(anotherFlow3Result).shouldNotHave(anotherFlow4Result);
+        it(resultCaptor.getAllValues()).shouldHaveAll(aFlowResult, anotherFlow1Result, anotherFlow2Result).shouldNotHave(anotherFlow3Result).shouldNotHave(anotherFlow4Result);
 
     }
 }

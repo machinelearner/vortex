@@ -9,6 +9,7 @@ import org.vortex.Settings;
 import org.vortex.domain.Flow;
 import org.vortex.domain.Result;
 import org.vortex.basic.primitive.Maps;
+import org.vortex.executor.state.StateCapture;
 
 import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;

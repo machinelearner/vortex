@@ -1,4 +1,4 @@
-package org.vortex.executor;
+package org.vortex.executor.state;
 
 import org.joda.time.DateTime;
 import org.vortex.basic.StructuredLog;

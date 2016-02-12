@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.vortex.Settings;
 import org.vortex.domain.Result;
+import org.vortex.executor.state.HttpStateCapture;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 

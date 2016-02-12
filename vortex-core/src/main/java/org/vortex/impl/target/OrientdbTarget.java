@@ -7,10 +7,11 @@ import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 import org.vortex.Settings;
-import org.vortex.domain.Result;
+import org.vortex.basic.primitive.Lists;
 import org.vortex.basic.primitive.Maps;
 import org.vortex.basic.primitive.Pair;
 import org.vortex.basic.primitive.Strings;
+import org.vortex.domain.Result;
 import org.vortex.query.*;
 
 import java.util.Arrays;
@@ -46,6 +47,7 @@ public class OrientdbTarget extends GraphTarget {
         super(settings);
         this.vertices = vertices;
         orientGraphFactory = initialize(settings);
+
     }
 
     OrientGraphFactory initialize(Settings settings) {
@@ -107,7 +109,7 @@ public class OrientdbTarget extends GraphTarget {
         Object executed = graph.command(new OCommandSQL(selectQuery)).execute();
 
         if (executed != null && Iterable.class.isInstance(executed)) results = (Iterable<Element>) executed;
-        else results = Arrays.asList((Element) executed);
+        else results = Lists.list((Element) executed);
 
         List<Object> elements = StreamSupport.stream(results.spliterator(), false)
                 .map(new Function<Element, Object>() {

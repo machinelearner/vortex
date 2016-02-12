@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.vortex.domain.Result;
 import org.vortex.domain.VTarget;
 import org.vortex.basic.primitive.Maps;
+import org.vortex.executor.state.DatabaseStateCapture;
 import org.vortex.query.UpdateQuery;
 
 import static name.mlnkrishnan.shouldJ.ShouldJ.it;

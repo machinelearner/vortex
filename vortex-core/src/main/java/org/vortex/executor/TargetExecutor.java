@@ -9,6 +9,8 @@ import org.vortex.basic.primitive.Pair;
 import org.vortex.domain.Result;
 import org.vortex.domain.VQuery;
 import org.vortex.domain.VTarget;
+import org.vortex.executor.state.HttpStateCapture;
+import org.vortex.executor.state.StateCapture;
 
 import java.util.List;
 import java.util.function.Function;

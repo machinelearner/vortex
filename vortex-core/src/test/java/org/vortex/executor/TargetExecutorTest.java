@@ -9,6 +9,7 @@ import org.vortex.domain.Result;
 import org.vortex.domain.VQuery;
 import org.vortex.domain.VTarget;
 import org.vortex.basic.primitive.Maps;
+import org.vortex.executor.state.StateCapture;
 import org.vortex.impl.target.MongoTarget;
 import org.vortex.impl.target.OrientdbTarget;
 import org.vortex.query.BulkDeleteTaskQuery;

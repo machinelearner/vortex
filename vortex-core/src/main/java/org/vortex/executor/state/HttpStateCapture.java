@@ -1,10 +1,11 @@
-package org.vortex.executor;
+package org.vortex.executor.state;
 
 import com.squareup.okhttp.*;
 import org.vortex.Settings;
 import org.vortex.basic.StructuredLog;
 import org.vortex.basic.primitive.Pair;
 import org.vortex.domain.Result;
+import org.vortex.executor.ExecutorException;
 
 import java.io.IOException;
 
