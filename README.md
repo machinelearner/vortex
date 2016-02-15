@@ -1,2 +1,2 @@
 # vortex
-A library to build pipelines for data transformations for motion of data across heterogeneous targets
+A library to build pipelines with transformations for motion of data across heterogeneous targets
