@@ -1,2 +1,2 @@
 # vortex
-A data migration tool and library which can be used to move data across heteregeneous data targets
+A library to build pipelines for data transformations for motion of data across heterogeneous targets
